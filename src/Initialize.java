@@ -90,6 +90,8 @@ public class Initialize {
 			}
 		});
 
+		TurnLabel currentTurn = new TurnLabel(mancalaModel);
+		south.add(currentTurn);
         south.add(undoButton);
         board.add(south, BorderLayout.SOUTH);
 	}
