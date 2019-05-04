@@ -1,6 +1,7 @@
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -8,6 +9,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class Pit extends JPanel implements Observer{
 
@@ -19,6 +21,9 @@ public class Pit extends JPanel implements Observer{
 	public Pit(int pitIndex, MancalaModel model) {
 		this.pitIndex = pitIndex;
 		this.model = model;
+		model.attach(this);
+		this.setPreferredSize(new Dimension(100, 125));
+		this.setBorder(new LineBorder(Color.BLACK, 10, true));
 	}
 	
 	@Override
