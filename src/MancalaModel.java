@@ -43,14 +43,14 @@ public class MancalaModel {
 		int currentStones = pits[pit].getStones();
 		int currentPit = pit+1;
 		while(currentStones != 0) {
-			if(currentPit > 9) {
+			if(currentPit > 13) {
 				currentPit = 0;
 			}
 			pits[currentPit].addStone();
 			currentStones--;
 			currentPit++;
 		}
-		if(currentPit > 9) {
+		if(currentPit > 14) {
 			currentPit = 0;
 		}
 		if(pits[currentPit].getCount() == 0 && pits[currentPit].isMancala() == false) {

@@ -26,7 +26,7 @@ public class Pit extends JPanel implements Observer{
 		//draw stones
 		stoneCount =  model.getPitScores()[pitIndex];
 		this.repaint();
-		System.out.println(pitIndex + ": " + stoneCount);
+		//System.out.println(pitIndex + ": " + stoneCount);
 	}
 	
     public void paintComponent( Graphics g )
@@ -35,7 +35,7 @@ public class Pit extends JPanel implements Observer{
         Graphics2D g2 = ( Graphics2D ) g;   
         g2.setPaint( Color.RED );
    		for(int i = 0; i < stoneCount; i++) {
-	       g2.fill( new Ellipse2D.Double( 15, 15 + i*15, 12, 12 ) );
+	       g2.fill( new Ellipse2D.Double( 15 + (i/6)*15, 15 + i*15 - (i/6)*90, 12, 12 ) );
     	}
     }
     

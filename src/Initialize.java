@@ -39,7 +39,8 @@ public class Initialize {
 		// create Center of Board
 		JPanel mancalaCenter = new JPanel(new BorderLayout());
 		JPanel topPits = new JPanel();
-		for (int i = 12; i > 7; i--) {
+		for (int i = 12; i > 6; i--) {
+			System.out.println(i);
 			Pit pit = new Pit(i, mancalaModel);
 			mancalaModel.attach(pit);
 			pit.setPreferredSize(new Dimension(100, 130));
@@ -48,7 +49,7 @@ public class Initialize {
 				@Override
 				public void mousePressed(MouseEvent arg0) {
 					mancalaModel.turn(pit.getIndex());
-					System.out.println("hello boi!!");
+					System.out.println(pit.getIndex());
 				}
 			});
 			topPits.add(pit);
@@ -62,7 +63,7 @@ public class Initialize {
 		mancala1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				System.out.println("hello boi!!");
+				System.out.println(mancala1.getIndex());
 			}
 		});
 		board.add(mancala1, BorderLayout.WEST);
@@ -70,7 +71,7 @@ public class Initialize {
 		// create Center of Board
 		mancalaCenter.add(topPits, BorderLayout.NORTH);
 		JPanel bottomPits = new JPanel();
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 6; i++) {
 			Pit pit = new Pit(i, mancalaModel);
 			mancalaModel.attach(pit);
 			pit.setPreferredSize(new Dimension(100, 130));
@@ -79,7 +80,7 @@ public class Initialize {
 				@Override
 				public void mousePressed(MouseEvent arg0) {
 					mancalaModel.turn(pit.getIndex());
-					System.out.println("hello boi!!");
+					System.out.println(pit.getIndex());
 				}
 			});
 			bottomPits.add(pit);
@@ -95,12 +96,12 @@ public class Initialize {
 		mancala2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				System.out.println("hello boi!!");
+				System.out.println(mancala2.getIndex());
 			}
 		});
 		board.add(mancala2, BorderLayout.EAST);
 		
-		board.setPreferredSize(new Dimension(850, 450));
+		board.setPreferredSize(new Dimension(950, 375));
 		board.getRootPane().setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.lightGray));
 		board.getContentPane().setBackground(Color.WHITE);
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
