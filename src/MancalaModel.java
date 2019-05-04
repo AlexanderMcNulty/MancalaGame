@@ -11,12 +11,17 @@ public class MancalaModel {
 	boolean cannotUndo;
 	int player1Moves;
 	int player2Moves;
+
+	private int lastP1Status;
+	private int lastP2Status;
 	
 	public MancalaModel(int stones) {
 		isTopPlayersTurn = false;
 		cannotUndo = false;
 		player1Moves = 0;
 		player2Moves = 0;
+		lastP1Status = 0;
+		lastP2Status = 0;
 		
 		observers = new ArrayList<>();
 		pits = new PitModel[14];
@@ -44,12 +49,17 @@ public class MancalaModel {
 		}
 		return toReturn;
 	}
+
 	
 	public void undo() {
-		if(cannotUndo == false) {
-			this.isTopPlayersTurn = !this.isTopPlayersTurn;
-			pits = undoPits;
-			stateChanged();
+		if(!(lastP1Status == player1Moves && lastP2Status == player2Moves)) {	
+			if(cannotUndo == false) {
+				lastP1Status = player1Moves;
+				lastP2Status = player2Moves;
+				this.isTopPlayersTurn = !this.isTopPlayersTurn;
+				pits = undoPits;
+				stateChanged();
+			}
 		}
 	}
 	
@@ -78,44 +88,46 @@ public class MancalaModel {
 	}
 	
 	public void turn(int pit, int player) {
-		if(isTopPlayersTurn) {
-			player1Moves++;
-			player2Moves = 0;
-		} else {
-			player2Moves++;
-			player1Moves = 0;
-		}
-		if(player2Moves > 3 || player1Moves > 3) {
-			cannotUndo = true;
-		} else {
-			cannotUndo = false;
-		}
-		
-		undoPits = this.clone();
-		int currentStones = pits[pit].getStones();
-		int currentPit = pit+1;
-		while(currentStones != 0) {
+		if(pits[pit].getCount() != 0) {
+			if(isTopPlayersTurn) {
+				player1Moves++;
+				player2Moves = 0;
+			} else {
+				player2Moves++;
+				player1Moves = 0;
+			}
+			if(player2Moves > 3 || player1Moves > 3) {
+				cannotUndo = true;
+			} else {
+				cannotUndo = false;
+			}
+			
+			undoPits = this.clone();
+			int currentStones = pits[pit].getStones();
+			int currentPit = pit+1;
+			while(currentStones != 0) {
+				if(currentPit > 13) {
+					currentPit = 0;
+				}
+				pits[currentPit].addStone();
+				currentStones--;
+				currentPit++;
+			}
+			currentPit--;
 			if(currentPit > 13) {
 				currentPit = 0;
 			}
-			pits[currentPit].addStone();
-			currentStones--;
-			currentPit++;
-		}
-		currentPit--;
-		if(currentPit > 13) {
-			currentPit = 0;
-		}
-		if(pits[currentPit].getCount() == 1 && pits[currentPit].isMancala() == false) {
-			int steal = pits[pits[currentPit].getOpposite()].getStones();
-			if(currentPit < 7) {
-				pits[6].addStone(steal);
-			} else {
-				pits[13].addStone(steal);
+			if(pits[currentPit].getCount() == 1 && pits[currentPit].isMancala() == false) {
+				int steal = pits[pits[currentPit].getOpposite()].getStones();
+				if(currentPit < 7) {
+					pits[6].addStone(steal);
+				} else {
+					pits[13].addStone(steal);
+				}
 			}
+			this.isTopPlayersTurn = !this.isTopPlayersTurn;
+			stateChanged();
 		}
-		this.isTopPlayersTurn = !this.isTopPlayersTurn;
-		stateChanged();
 	}
 	
 	public void attach(Observer observer) {
