@@ -35,6 +35,10 @@ public class PitModel {
 		return opposite;
 	}
 	
+	public PitModel clone() {
+		return new PitModel(stones, isMancala, opposite);
+	}
+	
 	@Override
 	public String toString() {
 		return String.valueOf(stones);

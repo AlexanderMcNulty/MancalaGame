@@ -3,7 +3,8 @@
 import java.util.ArrayList;
 
 public class MancalaModel {
-	PitModel[] pits; // not private, any reasons?
+	PitModel[] pits;
+	PitModel[] undoPits;
 	ArrayList<Observer> observers;
 	
 	public MancalaModel(int stones) {
@@ -23,6 +24,20 @@ public class MancalaModel {
 		pits[11] = new PitModel(stones, false, 1);
 		pits[12] = new PitModel(stones, false, 0);
 		pits[13] = new PitModel(0, true);
+		undoPits = clone();
+	}
+	
+	public PitModel[] clone() {
+		PitModel[] toReturn = new PitModel[14];
+		for(int i = 0; i < 14; i++) {
+			toReturn[i] = pits[i].clone();
+		}
+		return toReturn;
+	}
+	
+	public void undo() {
+		pits = undoPits;
+		stateChanged();
 	}
 	
 	public void setStones(int stones){
@@ -50,6 +65,9 @@ public class MancalaModel {
 	}
 	
 	public void turn(int pit) {
+		undoPits = this.clone();
+
+		
 		int currentStones = pits[pit].getStones();
 		int currentPit = pit+1;
 		while(currentStones != 0) {

@@ -22,14 +22,14 @@ public class Initialize {
 
 	static JFrame board; 
 	static MancalaModel mancalaModel;
-	
+	static boolean isBottom;
 	
 	public static void main(String[] args) {
 		mancalaModel = new MancalaModel(0);
 		board = new JFrame();
 		createBoard();
 		addInputFeild();
-		
+		addStatusFeild();
 		
 		board.setPreferredSize(new Dimension(950, 375));
 		board.getRootPane().setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.lightGray));
@@ -76,6 +76,24 @@ public class Initialize {
 	      north.add(t1);
 	      board.add(north, BorderLayout.NORTH);
 	}
+	
+	
+	public static void addStatusFeild() {
+		JPanel south = new JPanel();
+		JLabel turn = new JLabel("Bottom Player");
+		
+		JButton undoButton = new JButton("undo");
+		undoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mancalaModel.undo();
+			}
+		});
+
+	      south.add(turn);
+	      south.add(undoButton);
+	      board.add(south, BorderLayout.SOUTH);
+	}
+	
 	
 	public static void createBoard() {
 
