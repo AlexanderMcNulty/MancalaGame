@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
 
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -16,11 +17,13 @@ public class Pit extends JPanel implements Observer{
 	private int pitIndex;
 	private int stoneCount;
 	private MancalaModel model;
+	private RectangularShape rShape;
 	
 
-	public Pit(int pitIndex, MancalaModel model) {
+	public Pit(int pitIndex, MancalaModel model, RectangularShape rShape) {
 		this.pitIndex = pitIndex;
 		this.model = model;
+		this.rShape = rShape;
 		model.attach(this);
 		this.setPreferredSize(new Dimension(100, 125));
 		this.setBorder(new LineBorder(Color.BLACK, 10, true));
@@ -40,7 +43,8 @@ public class Pit extends JPanel implements Observer{
         Graphics2D g2 = ( Graphics2D ) g;   
         g2.setPaint( Color.RED );
    		for(int i = 0; i < stoneCount; i++) {
-	       g2.fill( new Ellipse2D.Double( 15 + (i/6)*15, 15 + i*15 - (i/6)*90, 12, 12 ) );
+   		   rShape.setFrame( 15 + (i/6)*15, 15 + i*15 - (i/6)*90, 12, 12 );
+	       g2.fill(rShape);
     	}
     }
     

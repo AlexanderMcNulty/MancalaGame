@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,12 +26,15 @@ public class Initialize {
 	static JFrame board; 
 	static MancalaModel mancalaModel;
 	static boolean isBottom;
-	
+	static RectangularShape specialShape;
+	static JPanel north;
 	
 	public static void main(String[] args) {
 		mancalaModel = new MancalaModel(0);
 		board = new JFrame();
-		addInputFeild();
+		north = new JPanel();
+		
+		chooseStyle();
 		
 		board.setPreferredSize(new Dimension(950, 375));
 		board.getRootPane().setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.lightGray));
@@ -49,10 +55,13 @@ public class Initialize {
 	}
 
 	public static void addInputFeild() {
-	      JPanel north = new JPanel();
+		  north.removeAll();
+		  north.repaint();
+		  
+		  north = new JPanel();
+		  
 	      JLabel label = new JLabel("Set stones per pit (Max is 4): ");
 	      north.add(label);
-	      north.setPreferredSize(new Dimension(350, 30));
 	      JTextField t1 = new JTextField();
 	      t1.setColumns(4);
 	      t1.addActionListener(new ActionListener() {
@@ -76,9 +85,34 @@ public class Initialize {
 	      });
 	      north.add(label);
 	      north.add(t1);
-	      board.add(north, BorderLayout.NORTH);
+	      
+		  board.add(north, BorderLayout.NORTH);
+
+	      board.revalidate();
+
+	      
+	      
 	}
 	
+	public static void chooseStyle() {
+			JButton rectangleButton = new JButton("Rectangular Stones");
+			rectangleButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					specialShape = new Rectangle2D.Double();
+					addInputFeild();
+				}
+			});
+			JButton circularButton = new JButton("Circular Stones");
+			circularButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					specialShape = new Ellipse2D.Double();
+					addInputFeild();
+				}
+			});
+			north.add(rectangleButton);
+			north.add(circularButton);
+		    board.add(north, BorderLayout.NORTH);
+	}
 	
 	public static void addStatusFeild() {
 		JPanel south = new JPanel();
@@ -98,11 +132,13 @@ public class Initialize {
 	
 	
 	public static void createBoard() {
+		  
+		
 		// Create Top Player Pits
 		JPanel mancalaCenter = new JPanel(new BorderLayout());
 		JPanel topPits = new JPanel();
 		for (int i = 12; i > 6; i--) {
-			Pit pit = new Pit(i, mancalaModel);
+			Pit pit = new Pit(i, mancalaModel, specialShape);
 			pit.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent arg0) {
 					System.out.println("Clicked Top Pit: " + pit.getIndex());
@@ -114,14 +150,14 @@ public class Initialize {
 			topPits.add(pit);
 		}
 		mancalaCenter.add(topPits, BorderLayout.NORTH);
-		Pit mancala1 = new Pit(13, mancalaModel);
+		Pit mancala1 = new Pit(13, mancalaModel, specialShape);
 		board.add(mancala1, BorderLayout.WEST);
 
 		// Create Bottom Player Pits
 		mancalaCenter.add(topPits, BorderLayout.NORTH);
 		JPanel bottomPits = new JPanel();
 		for (int i = 0; i < 6; i++) {
-			Pit pit = new Pit(i, mancalaModel);
+			Pit pit = new Pit(i, mancalaModel, specialShape);
 			pit.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent arg0) {
 					System.out.println("Clicked Top Pit: " + pit.getIndex());
@@ -133,7 +169,7 @@ public class Initialize {
 			bottomPits.add(pit);
 		}
 		mancalaCenter.add(bottomPits, BorderLayout.SOUTH);
-		Pit mancala2 = new Pit(6, mancalaModel);
+		Pit mancala2 = new Pit(6, mancalaModel, specialShape);
 		board.add(mancala2, BorderLayout.EAST);
 		
 		board.add(mancalaCenter, BorderLayout.CENTER);
