@@ -25,6 +25,16 @@ public class MancalaModel {
 		pits[13] = new PitModel(0, true);
 	}
 	
+	public void setStones(int stones){
+		for(int i = 0; i < 6; i++) {
+			pits[i].setStoneCount(stones);
+		}
+		for(int i = 7; i < 13; i++) {
+			pits[i].setStoneCount(stones);
+		}
+		stateChanged();
+	}
+	
 	public int[] getPitScores() {
 		int[] toReturn = new int[14];
 		for(int i = 0; i < 14; i++) {
@@ -54,7 +64,7 @@ public class MancalaModel {
 			currentPit = 0;
 		}
 		if(pits[currentPit].getCount() == 0 && pits[currentPit].isMancala() == false) {
-			turn(pits[currentPit].getOpposite());
+		//	pits[pits[currentPit].getOpposite()].;
 		}
 		stateChanged();
 	}

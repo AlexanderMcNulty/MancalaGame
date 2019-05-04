@@ -19,6 +19,9 @@ public class PitModel {
 		stones = 0;
 		return temp;
 	}
+	public void setStoneCount(int count) {
+		stones = count;
+	}
 	public void addStone() {
 		stones++;
 	}

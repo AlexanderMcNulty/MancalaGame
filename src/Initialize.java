@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -8,7 +10,9 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -16,12 +20,27 @@ import javax.swing.border.LineBorder;
 
 public class Initialize {
 
+	public static boolean tryParse(String text)
+	   {
+	      int num;
+	      try
+	      {
+	         num = Integer.parseInt(text);
+	         return true;
+	      } catch (NumberFormatException e1)
+	      {
+	         return false;
+	      }
+	   }
+	
 	public static void main(String[] args) {
 
-		MancalaModel mancalaModel = new MancalaModel(4);
+		MancalaModel mancalaModel = new MancalaModel(0);
 
 		JFrame board = new JFrame();
 
+		
+		
 		// create Center of Board
 		JPanel mancalaCenter = new JPanel(new BorderLayout());
 		JPanel topPits = new JPanel();
@@ -68,6 +87,60 @@ public class Initialize {
 				System.out.println("pit Clicked: " + mancala2.getIndex());			}
 		});
 		board.add(mancala2, BorderLayout.EAST);
+		
+		
+		
+		
+		
+		
+
+	      JPanel north = new JPanel();
+	      JLabel label = new JLabel("Max of 4");
+	      north.add(label);
+	      north.setPreferredSize(new Dimension(350, 30));
+	      JTextField t1;
+	      int numStones = 0;
+	      t1 = new JTextField("Enter the number of stones per pit: ");
+
+	      t1.addActionListener(new ActionListener()
+	      {
+	         @Override
+	         public void actionPerformed(ActionEvent e)
+	         {
+	            String input = t1.getText();
+	            if (tryParse(input))
+	            {
+	            	mancalaModel.setStones(Integer.parseInt(input));
+	               if (numStones > 0 && numStones < 5)
+	               {
+	                  label.setText("Game started. ");
+	                  //System.out.println(numStones);
+
+	               } else
+	               {
+	                  label.setText("Invalid stone count, try again.");
+	               }
+	            } else
+	            {
+	               label.setText("Invalid stone count, try again.");
+	            }
+	         }
+
+	      });
+	      north.add(t1);
+	      north.add(label);
+
+	      // MancalaModel mancalaModel = new MancalaModel(numStones);
+	      board.add(north, BorderLayout.NORTH);
+
+	      //mancalaModel.setStones(numStones);
+
+		
+		
+		
+		
+		
+		
 		
 		board.setPreferredSize(new Dimension(950, 375));
 		board.getRootPane().setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.lightGray));
