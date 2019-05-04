@@ -21,14 +21,28 @@ import javax.swing.border.LineBorder;
 
 //import Scene.MancalaModel;
 
+/**
+ * 
+ * @author Alexander McNulty, James Wang, Keonwoong Min
+ * MancalaFrame:
+ * - initializes the model
+ * - creates views and controllers
+ */
 public class MancalaFrame {
 
+	// board - an annoymous class with displays and contains pits
 	static Board board; 
+	// MancalaModel - the model which holds current turn, and pit stone count
 	static MancalaModel mancalaModel;
-	static boolean isBottom;
+	// north - a JPanel which holds controllers for implementing strategy pattern and mutating model
 	static JPanel north;
+	// boardFrame - A JFrame which holds all elements in the board
 	static JFrame boardFrame;
 	
+	/**
+	 * main - creates the boardFrame Object, initialized model and global variable JPanel north
+	 * @param args - default argument of main() - not used
+	 */
 	public static void main(String[] args) {
 		mancalaModel = new MancalaModel(0);
 
@@ -44,7 +58,12 @@ public class MancalaFrame {
 		boardFrame.setVisible(true);
 	}
 	
+	/**
+	 * chooseStyle - creates two buttons which create a different annoymous classes which extend board (Strategy Pattern)
+	 */
 	public static void chooseStyle() {
+		
+		// create a button for strategy pattern 1
 		JButton rectangleButton = new JButton("Rectangular Stones");
 		rectangleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -97,6 +116,8 @@ public class MancalaFrame {
 				boardFrame.revalidate();
 			}
 		});
+		
+		// create a button for strategy pattern 2
 		JButton circularButton = new JButton("Circular Stones");
 		circularButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -156,6 +177,11 @@ public class MancalaFrame {
 	    boardFrame.repaint();
 	}
 
+	
+	/**
+	 * addInputFeild - renders label and input feild to initial stone count in model
+	 * 				 - addInputFeild is called after a board strategy has been choosen
+	 */
 	public static void addInputFeild() {
 
 		  north.removeAll();
@@ -190,6 +216,11 @@ public class MancalaFrame {
 		  boardFrame.add(north, BorderLayout.NORTH);	      
 	}
 	
+	/**
+	 * tryParse - used to validate text entered into the text feild 
+	 * @param text - text is passed when the user hits enter after inputFeild
+	 * @return boolean - if the text could be parsed to number 
+	 */
 	static public boolean tryParse(String text) {
 	      int num;
 	      try {
@@ -201,6 +232,10 @@ public class MancalaFrame {
 	}
 	
 
+	/**
+	 * addStatusFeild - the status feild contains a controller which allows players to undo a move
+	 * 				  - as well as a view which displays which players turn it currently is
+	 */
 	static public void addStatusFeild() {
 		JPanel south = new JPanel();
 		
