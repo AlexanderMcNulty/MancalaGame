@@ -8,9 +8,15 @@ public class MancalaModel {
 	ArrayList<Observer> observers;
 	
 	boolean isTopPlayersTurn;
+	boolean cannotUndo;
+	int player1Moves;
+	int player2Moves;
 	
 	public MancalaModel(int stones) {
-		isTopPlayersTurn = true;
+		isTopPlayersTurn = false;
+		cannotUndo = false;
+		player1Moves = 0;
+		player2Moves = 0;
 		
 		observers = new ArrayList<>();
 		pits = new PitModel[14];
@@ -40,8 +46,11 @@ public class MancalaModel {
 	}
 	
 	public void undo() {
-		pits = undoPits;
-		stateChanged();
+		if(cannotUndo == false) {
+			this.isTopPlayersTurn = !this.isTopPlayersTurn;
+			pits = undoPits;
+			stateChanged();
+		}
 	}
 	
 	public void setStones(int stones){
@@ -68,7 +77,20 @@ public class MancalaModel {
 		System.out.println("   "+pits[0]+" "+pits[1]+" "+pits[2]+" "+pits[3]+" "+pits[4]+" "+pits[5]+"  \n\n");
 	}
 	
-	public void turn(int pit) {
+	public void turn(int pit, int player) {
+		if(isTopPlayersTurn) {
+			player1Moves++;
+			player2Moves = 0;
+		} else {
+			player2Moves++;
+			player1Moves = 0;
+		}
+		if(player2Moves > 3 || player1Moves > 3) {
+			cannotUndo = true;
+		} else {
+			cannotUndo = false;
+		}
+		
 		undoPits = this.clone();
 		int currentStones = pits[pit].getStones();
 		int currentPit = pit+1;
@@ -92,6 +114,7 @@ public class MancalaModel {
 				pits[13].addStone(steal);
 			}
 		}
+		this.isTopPlayersTurn = !this.isTopPlayersTurn;
 		stateChanged();
 	}
 	
@@ -104,6 +127,10 @@ public class MancalaModel {
 		for(Observer o : observers) {
 			o.viewNotify();
 		}
+	}
+	
+	public boolean checkTopsTurn() {
+		return isTopPlayersTurn;
 	}
 	
 }

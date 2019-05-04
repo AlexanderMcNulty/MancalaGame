@@ -103,8 +103,10 @@ public class Initialize {
 			Pit pit = new Pit(i, mancalaModel);
 			pit.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent arg0) {
-					mancalaModel.turn(pit.getIndex());
-					System.out.println("pit Clicked: " + pit.getIndex());
+					System.out.println("Clicked Top Pit: " + pit.getIndex());
+					if(mancalaModel.checkTopsTurn() == true) {
+						mancalaModel.turn(pit.getIndex(), 1);
+					}
 				}
 			});
 			topPits.add(pit);
@@ -120,8 +122,11 @@ public class Initialize {
 			Pit pit = new Pit(i, mancalaModel);
 			pit.addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent arg0) {
-					mancalaModel.turn(pit.getIndex());
-					System.out.println("pit Clicked: " + pit.getIndex());				}
+					System.out.println("Clicked Top Pit: " + pit.getIndex());
+					if(mancalaModel.checkTopsTurn() == false) {
+						mancalaModel.turn(pit.getIndex(), 2);
+					}			
+				}
 			});
 			bottomPits.add(pit);
 		}
