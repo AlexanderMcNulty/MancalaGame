@@ -83,7 +83,7 @@ public class Initialize {
 	public static void addStatusFeild() {
 		JPanel south = new JPanel();
 		
-		JButton undoButton = new JButton("undo");
+		JButton undoButton = new JButton("Undo last move");
 		undoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mancalaModel.undo();
@@ -96,8 +96,7 @@ public class Initialize {
 	
 	
 	public static void createBoard() {
-
-		// create Center of Board
+		// Create Top Player Pits
 		JPanel mancalaCenter = new JPanel(new BorderLayout());
 		JPanel topPits = new JPanel();
 		for (int i = 12; i > 6; i--) {
@@ -111,16 +110,10 @@ public class Initialize {
 			topPits.add(pit);
 		}
 		mancalaCenter.add(topPits, BorderLayout.NORTH);
-		
-		// create Mancala1
 		Pit mancala1 = new Pit(13, mancalaModel);
-		mancala1.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent arg0) {
-				System.out.println("pit Clicked: " + mancala1.getIndex());			}
-		});
 		board.add(mancala1, BorderLayout.WEST);
 
-		// create Center of Board
+		// Create Bottom Player Pits
 		mancalaCenter.add(topPits, BorderLayout.NORTH);
 		JPanel bottomPits = new JPanel();
 		for (int i = 0; i < 6; i++) {
@@ -133,17 +126,10 @@ public class Initialize {
 			bottomPits.add(pit);
 		}
 		mancalaCenter.add(bottomPits, BorderLayout.SOUTH);
-		board.add(mancalaCenter, BorderLayout.CENTER);
-
-		// create Mancala2
 		Pit mancala2 = new Pit(6, mancalaModel);
-		mancala2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				System.out.println("pit Clicked: " + mancala2.getIndex());			}
-		});
 		board.add(mancala2, BorderLayout.EAST);
 		
+		board.add(mancalaCenter, BorderLayout.CENTER);
 	}
 	
 }
