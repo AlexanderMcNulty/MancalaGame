@@ -26,7 +26,6 @@ public class MancalaFrame {
 	static Board board; 
 	static MancalaModel mancalaModel;
 	static boolean isBottom;
-	static RectangularShape specialShape;
 	static JPanel north;
 	static JFrame boardFrame;
 	
@@ -49,9 +48,9 @@ public class MancalaFrame {
 		JButton rectangleButton = new JButton("Rectangular Stones");
 		rectangleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				specialShape = new Rectangle2D.Double();
 				board = new Board() {
 					public void createBoard() {
+						RectangularShape specialShape = new Rectangle2D.Double();
 						// Create Top Player Pits
 						JPanel mancalaCenter = new JPanel(new BorderLayout());
 						JPanel topPits = new JPanel();
@@ -101,9 +100,9 @@ public class MancalaFrame {
 		JButton circularButton = new JButton("Circular Stones");
 		circularButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				specialShape = new Ellipse2D.Double();
 				board = new Board() {
 					public void createBoard() {
+						RectangularShape specialShape = new Ellipse2D.Double();
 						// Create Top Player Pits
 						JPanel mancalaCenter = new JPanel(new BorderLayout());
 						JPanel topPits = new JPanel();
