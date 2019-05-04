@@ -25,6 +25,9 @@ public class PitModel {
 	public void addStone() {
 		stones++;
 	}
+	public void addStone(int steal) {
+		stones += steal;
+	}
 	public int getCount() {
 		return stones;
 	}

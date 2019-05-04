@@ -80,11 +80,17 @@ public class MancalaModel {
 			currentStones--;
 			currentPit++;
 		}
+		currentPit--;
 		if(currentPit > 13) {
 			currentPit = 0;
 		}
-		if(pits[currentPit].getCount() == 0 && pits[currentPit].isMancala() == false) {
-		//	pits[pits[currentPit].getOpposite()].;
+		if(pits[currentPit].getCount() == 1 && pits[currentPit].isMancala() == false) {
+			int steal = pits[pits[currentPit].getOpposite()].getStones();
+			if(currentPit < 7) {
+				pits[6].addStone(steal);
+			} else {
+				pits[13].addStone(steal);
+			}
 		}
 		stateChanged();
 	}
