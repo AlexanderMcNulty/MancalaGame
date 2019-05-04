@@ -20,27 +20,64 @@ import javax.swing.border.LineBorder;
 
 public class Initialize {
 
-	public static boolean tryParse(String text)
-	   {
-	      int num;
-	      try
-	      {
-	         num = Integer.parseInt(text);
-	         return true;
-	      } catch (NumberFormatException e1)
-	      {
-	         return false;
-	      }
-	   }
+	static JFrame board; 
+	static MancalaModel mancalaModel;
+	
 	
 	public static void main(String[] args) {
-
-		MancalaModel mancalaModel = new MancalaModel(0);
-
-		JFrame board = new JFrame();
-
+		mancalaModel = new MancalaModel(0);
+		board = new JFrame();
+		createBoard();
+		addInputFeild();
 		
-		
+		board.setPreferredSize(new Dimension(950, 375));
+		board.getRootPane().setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.lightGray));
+		board.getContentPane().setBackground(Color.WHITE);
+		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		board.pack();
+		board.setVisible(true);
+	}
+	
+	public static boolean tryParse(String text) {
+	      int num;
+	      try {
+	         num = Integer.parseInt(text);
+	         return true;
+	      } catch (NumberFormatException e1) {
+	         return false;
+	      }
+	}
+
+	public static void addInputFeild() {
+	      JPanel north = new JPanel();
+	      JLabel label = new JLabel("Enter the number of stones per pit (Max of 4)");
+	      north.add(label);
+	      north.setPreferredSize(new Dimension(350, 30));
+	      JTextField t1 = new JTextField();
+	      t1.setColumns(4);
+	      t1.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	            String input = t1.getText();
+	            if (tryParse(input)) {
+	               if (Integer.parseInt(input) > 0 && Integer.parseInt(input) < 5){
+	                  label.setText("Game started. ");
+		              mancalaModel.setStones(Integer.parseInt(input));
+	               } else {
+	                  label.setText("set to default");
+		              mancalaModel.setStones(4);
+	               }
+	            } else {
+	               label.setText("Invalid stone count, try again.");
+	            }
+	         }
+	      });
+	      north.add(t1);
+	      north.add(label);
+	      board.add(north, BorderLayout.NORTH);
+	}
+	
+	public static void createBoard() {
+
 		// create Center of Board
 		JPanel mancalaCenter = new JPanel(new BorderLayout());
 		JPanel topPits = new JPanel();
@@ -88,67 +125,6 @@ public class Initialize {
 		});
 		board.add(mancala2, BorderLayout.EAST);
 		
-		
-		
-		
-		
-		
-
-	      JPanel north = new JPanel();
-	      JLabel label = new JLabel("Max of 4");
-	      north.add(label);
-	      north.setPreferredSize(new Dimension(350, 30));
-	      JTextField t1;
-	      int numStones = 0;
-	      t1 = new JTextField("Enter the number of stones per pit: ");
-
-	      t1.addActionListener(new ActionListener()
-	      {
-	         @Override
-	         public void actionPerformed(ActionEvent e)
-	         {
-	            String input = t1.getText();
-	            if (tryParse(input))
-	            {
-	            	mancalaModel.setStones(Integer.parseInt(input));
-	               if (numStones > 0 && numStones < 5)
-	               {
-	                  label.setText("Game started. ");
-	                  //System.out.println(numStones);
-
-	               } else
-	               {
-	                  label.setText("Invalid stone count, try again.");
-	               }
-	            } else
-	            {
-	               label.setText("Invalid stone count, try again.");
-	            }
-	         }
-
-	      });
-	      north.add(t1);
-	      north.add(label);
-
-	      // MancalaModel mancalaModel = new MancalaModel(numStones);
-	      board.add(north, BorderLayout.NORTH);
-
-	      //mancalaModel.setStones(numStones);
-
-		
-		
-		
-		
-		
-		
-		
-		board.setPreferredSize(new Dimension(950, 375));
-		board.getRootPane().setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.lightGray));
-		board.getContentPane().setBackground(Color.WHITE);
-		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		board.pack();
-		board.setVisible(true);
-
 	}
-
+	
 }
