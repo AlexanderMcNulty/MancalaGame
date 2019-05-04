@@ -30,6 +30,7 @@ public class Initialize {
 		createBoard();
 		addInputFeild();
 		
+		
 		board.setPreferredSize(new Dimension(950, 375));
 		board.getRootPane().setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.lightGray));
 		board.getContentPane().setBackground(Color.WHITE);
@@ -50,7 +51,7 @@ public class Initialize {
 
 	public static void addInputFeild() {
 	      JPanel north = new JPanel();
-	      JLabel label = new JLabel("Enter the number of stones per pit (Max of 4)");
+	      JLabel label = new JLabel("Set stones per pit (Max is 4): ");
 	      north.add(label);
 	      north.setPreferredSize(new Dimension(350, 30));
 	      JTextField t1 = new JTextField();
@@ -60,10 +61,10 @@ public class Initialize {
 	            String input = t1.getText();
 	            if (tryParse(input)) {
 	               if (Integer.parseInt(input) > 0 && Integer.parseInt(input) < 5){
-	                  label.setText("Game started. ");
+	                  label.setText("[Game started] Enter new value to restart: ");
 		              mancalaModel.setStones(Integer.parseInt(input));
 	               } else {
-	                  label.setText("set to default");
+	                  label.setText("[set to default] Enter new value to restart: ");
 		              mancalaModel.setStones(4);
 	               }
 	            } else {
@@ -71,8 +72,8 @@ public class Initialize {
 	            }
 	         }
 	      });
-	      north.add(t1);
 	      north.add(label);
+	      north.add(t1);
 	      board.add(north, BorderLayout.NORTH);
 	}
 	
