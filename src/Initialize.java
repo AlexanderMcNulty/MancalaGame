@@ -35,13 +35,12 @@ public class Initialize {
 
 		JFrame board = new JFrame();
 
-		int pitCount = 0;
 		
 		// create Center of Board
 		JPanel mancalaCenter = new JPanel(new BorderLayout());
 		JPanel topPits = new JPanel();
-		for (int i = 0; i < 5; i++) {
-			Pit pit = new Pit(pitCount++, mancalaModel);
+		for (int i = 12; i > 7; i--) {
+			Pit pit = new Pit(i, mancalaModel);
 			mancalaModel.attach(pit);
 			pit.setPreferredSize(new Dimension(100, 130));
 			pit.setBorder(new LineBorder(Color.BLACK, 10, true));
@@ -54,8 +53,9 @@ public class Initialize {
 			});
 			topPits.add(pit);
 		}
+		mancalaCenter.add(topPits, BorderLayout.NORTH);
 		// create Mancala1
-		Pit mancala1 = new Pit(pitCount++, mancalaModel);
+		Pit mancala1 = new Pit(13, mancalaModel);
 		mancalaModel.attach(mancala1);
 		mancala1.setPreferredSize(new Dimension(100, 200));
 		mancala1.setBorder(new LineBorder(Color.BLACK, 10, true));
@@ -70,8 +70,8 @@ public class Initialize {
 		// create Center of Board
 		mancalaCenter.add(topPits, BorderLayout.NORTH);
 		JPanel bottomPits = new JPanel();
-		for (int i = 0; i < 6; i++) {
-			Pit pit = new Pit(pitCount++, mancalaModel);
+		for (int i = 0; i < 5; i++) {
+			Pit pit = new Pit(i, mancalaModel);
 			mancalaModel.attach(pit);
 			pit.setPreferredSize(new Dimension(100, 130));
 			pit.setBorder(new LineBorder(Color.BLACK, 10, true));
@@ -88,7 +88,7 @@ public class Initialize {
 		board.add(mancalaCenter, BorderLayout.CENTER);
 
 		// create Mancala2
-		Pit mancala2 = new Pit(pitCount++, mancalaModel);
+		Pit mancala2 = new Pit(6, mancalaModel);
 		mancalaModel.attach(mancala2);
 		mancala2.setPreferredSize(new Dimension(100, 200));
 		mancala2.setBorder(new LineBorder(Color.BLACK, 10, true));
