@@ -7,7 +7,11 @@ public class MancalaModel {
 	PitModel[] undoPits;
 	ArrayList<Observer> observers;
 	
+	boolean isTopPlayersTurn;
+	
 	public MancalaModel(int stones) {
+		isTopPlayersTurn = true;
+		
 		observers = new ArrayList<>();
 		pits = new PitModel[14];
 		pits[0] = new PitModel(stones, false, 12);
@@ -66,8 +70,6 @@ public class MancalaModel {
 	
 	public void turn(int pit) {
 		undoPits = this.clone();
-
-		
 		int currentStones = pits[pit].getStones();
 		int currentPit = pit+1;
 		while(currentStones != 0) {
@@ -78,7 +80,7 @@ public class MancalaModel {
 			currentStones--;
 			currentPit++;
 		}
-		if(currentPit > 14) {
+		if(currentPit > 13) {
 			currentPit = 0;
 		}
 		if(pits[currentPit].getCount() == 0 && pits[currentPit].isMancala() == false) {

@@ -24,12 +24,11 @@ public class Initialize {
 	static MancalaModel mancalaModel;
 	static boolean isBottom;
 	
+	
 	public static void main(String[] args) {
 		mancalaModel = new MancalaModel(0);
 		board = new JFrame();
-		createBoard();
 		addInputFeild();
-		addStatusFeild();
 		
 		board.setPreferredSize(new Dimension(950, 375));
 		board.getRootPane().setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.lightGray));
@@ -67,6 +66,9 @@ public class Initialize {
 	                  label.setText("[set to default] Enter new value to restart: ");
 		              mancalaModel.setStones(4);
 	               }
+	               createBoard();
+	       		   addStatusFeild();
+	       		
 	            } else {
 	               label.setText("Invalid stone count, try again.");
 	            }
@@ -80,7 +82,6 @@ public class Initialize {
 	
 	public static void addStatusFeild() {
 		JPanel south = new JPanel();
-		JLabel turn = new JLabel("Bottom Player");
 		
 		JButton undoButton = new JButton("undo");
 		undoButton.addActionListener(new ActionListener() {
@@ -89,9 +90,8 @@ public class Initialize {
 			}
 		});
 
-	      south.add(turn);
-	      south.add(undoButton);
-	      board.add(south, BorderLayout.SOUTH);
+        south.add(undoButton);
+        board.add(south, BorderLayout.SOUTH);
 	}
 	
 	
