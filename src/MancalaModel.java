@@ -9,6 +9,7 @@ public class MancalaModel {
 	
 	private boolean isTopPlayersTurn;
 	private boolean cannotUndo;
+	private boolean endOfGame; 
 	private int player1Moves;
 	private int player2Moves;
 
@@ -19,6 +20,7 @@ public class MancalaModel {
 	public MancalaModel(int stones) {
 		isTopPlayersTurn = false;
 		cannotUndo = false;
+		endOfGame = false;
 		player1Moves = 0;
 		player2Moves = 0;
 		lastP1Status = 0;
@@ -56,6 +58,7 @@ public class MancalaModel {
 	public void undo() {
 		if(!(lastP1Status == player1Moves && lastP2Status == player2Moves)) {	
 			if(cannotUndo == false) {
+				endOfGame = false;
 				lastP1Status = player1Moves;
 				lastP2Status = player2Moves;
 				this.isTopPlayersTurn = !this.isTopPlayersTurn;
@@ -66,12 +69,16 @@ public class MancalaModel {
 	}
 	
 	public void setStones(int stones){
+		endOfGame = false;
 		for(int i = 0; i < 6; i++) {
 			pits[i].setStoneCount(stones);
 		}
 		for(int i = 7; i < 13; i++) {
 			pits[i].setStoneCount(stones);
 		}
+		pits[6].setStoneCount(0);
+		pits[13].setStoneCount(0);
+
 		stateChanged();
 	}
 
@@ -121,42 +128,87 @@ public class MancalaModel {
 				player2Moves++;
 				player1Moves = 0;
 			}
-			if(player2Moves > 3 || player1Moves > 3) {
-				cannotUndo = true;
-			} else {
-				cannotUndo = false;
+			
+			//check if one side is empty
+			endOfGame = true;
+			for(int i = 0; i < 6; i++) {
+				if(pits[i].getCount() > 0 && endOfGame == true) {
+					System.out.println("triggered in top");
+					endOfGame = false;
+				}
+			} 
+			if(endOfGame == false) {
+				endOfGame = true;
+				for (int i = 12; i > 6; i--) {	
+					if(pits[i].getCount() > 0) {
+						System.out.println("triggered in bottom");
+						endOfGame = false;
+					} else {
+						
+					}
+				}
 			}
 			
-			undoPits = this.clone();
-			int currentStones = pits[pit].getStones();
-			int currentPit = pit+1;
-			while(currentStones != 0) {
+			if(endOfGame == false) {
+				
+				if(player2Moves > 3 || player1Moves > 3) {
+					cannotUndo = true;
+				} else {
+					cannotUndo = false;
+				}
+				
+				undoPits = this.clone();
+				int currentStones = pits[pit].getStones();
+				int currentPit = pit+1;
+				while(currentStones != 0) {
+					if(currentPit > 13) {
+						currentPit = 0;
+					}
+					pits[currentPit].addStone();
+					currentStones--;
+					currentPit++;
+				}
+				currentPit--;
 				if(currentPit > 13) {
 					currentPit = 0;
 				}
-				pits[currentPit].addStone();
-				currentStones--;
-				currentPit++;
-			}
-			currentPit--;
-			if(currentPit > 13) {
-				currentPit = 0;
-			}
-			if(pits[currentPit].getCount() == 1 && pits[currentPit].isMancala() == false
-					&& pits[pits[currentPit].getOpposite()].getStones() >0) {
-				int steal = pits[pits[currentPit].getOpposite()].getStones() + pits[currentPit].getStones();
-				if(currentPit < 7) {
-					pits[6].addStone(steal); // A's mancala
-				} else {
-					pits[13].addStone(steal); // B's mancala
+				if(pits[currentPit].getCount() == 1 && pits[currentPit].isMancala() == false
+						&& pits[pits[currentPit].getOpposite()].getStones() >0) {
+					int steal = pits[pits[currentPit].getOpposite()].getStones() + pits[currentPit].getStones();
+					if(currentPit < 7) {
+						pits[6].addStone(steal); // A's mancala
+					} else {
+						pits[13].addStone(steal); // B's mancala
+					}
+				}
+				if (!pits[currentPit].isMancala())
+				{
+					this.isTopPlayersTurn = !this.isTopPlayersTurn;
 				}
 			}
-			if (!pits[currentPit].isMancala())
-			{
-				this.isTopPlayersTurn = !this.isTopPlayersTurn;
+			
+			//check if one side is empty
+			endOfGame = true;
+			for(int i = 0; i < 6; i++) {
+				if(pits[i].getCount() > 0 && endOfGame == true) {
+					System.out.println("triggered in top");
+					endOfGame = false;
+				}
+			} 
+			if(endOfGame == false) {
+				endOfGame = true;
+				for (int i = 12; i > 6; i--) {	
+					if(pits[i].getCount() > 0) {
+						System.out.println("triggered in bottom");
+						endOfGame = false;
+					} else {
+						
+					}
+				}
 			}
 			
 			stateChanged();
+
 		}
 	}
 	
@@ -174,6 +226,11 @@ public class MancalaModel {
 	
 	public boolean checkTopsTurn() {
 		return isTopPlayersTurn;
+	}
+	
+	public boolean getEndOfGame() {
+		System.out.println(endOfGame);
+		return endOfGame;
 	}
 	
 }

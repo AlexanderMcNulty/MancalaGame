@@ -11,7 +11,12 @@ public class TurnLabel extends JLabel implements Observer {
 	
 	@Override
 	public void viewNotify() {
-		if(model.checkTopsTurn()) {
+		System.out.println("\nhi");
+		if (model.getEndOfGame() == true) {
+			System.out.println("\nwhat?");
+			this.setText("The game is over!!");
+		}
+		else if(model.checkTopsTurn()) {
 //			if(!model.isEnded())
 			{
 				this.setText("It is Top Player's Turn.  ");
