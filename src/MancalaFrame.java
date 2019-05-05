@@ -59,7 +59,8 @@ public class MancalaFrame {
 	}
 	
 	/**
-	 * chooseStyle - creates two buttons which create a different annoymous classes which extend board (Strategy Pattern)
+	 * chooseStyle - creates two buttons which create a different annoymo
+	 * us classes which extend board (Strategy Pattern)
 	 */
 	public static void chooseStyle() {
 		
@@ -74,12 +75,20 @@ public class MancalaFrame {
 						JPanel mancalaCenter = new JPanel(new BorderLayout());
 						JPanel topPits = new JPanel();
 						for (int i = 12; i > 6; i--) {
+							
 							Pit pit = new Pit(i, mancalaModel, specialShape);
+							String labelString = "B" + (i -6); 
+							pit.setLabel(labelString);
 							pit.addMouseListener(new MouseAdapter() {
 								public void mousePressed(MouseEvent arg0) {
 									System.out.println("Clicked Top Pit: " + pit.getIndex());
-									if(mancalaModel.checkTopsTurn() == true) {
+									if( !pit.getEnded()  &&mancalaModel.checkTopsTurn() == true ) 
+									{
 										mancalaModel.turn(pit.getIndex(), 1);
+									}
+									else
+									{
+										System.out.println("hahahahaended");
 									}
 								}
 							});
@@ -90,21 +99,30 @@ public class MancalaFrame {
 						this.add(mancala1, BorderLayout.WEST);
 
 						// Create Bottom Player Pits
-						mancalaCenter.add(topPits, BorderLayout.NORTH);
+						mancalaCenter.add(topPits, BorderLayout.NORTH);////
 						JPanel bottomPits = new JPanel();
 						for (int i = 0; i < 6; i++) {
+							
+							
 							Pit pit = new Pit(i, mancalaModel, specialShape);
+							String labelString = "A" + (i+1); 
+							pit.setLabel(labelString);
 							pit.addMouseListener(new MouseAdapter() {
 								public void mousePressed(MouseEvent arg0) {
 									System.out.println("Clicked Top Pit: " + pit.getIndex());
-									if(mancalaModel.checkTopsTurn() == false) {
+									if(!pit.getEnded()  && mancalaModel.checkTopsTurn() == false
+											 ) {
 										mancalaModel.turn(pit.getIndex(), 2);
 									}			
+									else
+									{
+										System.out.println("hahahahaended");
+									}
 								}
 							});
 							bottomPits.add(pit);
 						}
-						mancalaCenter.add(bottomPits, BorderLayout.SOUTH);
+						mancalaCenter.add(bottomPits, BorderLayout.SOUTH);/////
 						Pit mancala2 = new Pit(6, mancalaModel, specialShape);
 						this.add(mancala2, BorderLayout.EAST);
 						
@@ -114,6 +132,9 @@ public class MancalaFrame {
 				boardFrame.add(board, BorderLayout.CENTER);
 				addInputFeild();
 				boardFrame.revalidate();
+				
+
+					
 			}
 		});
 		
@@ -132,8 +153,13 @@ public class MancalaFrame {
 							pit.addMouseListener(new MouseAdapter() {
 								public void mousePressed(MouseEvent arg0) {
 									System.out.println("Clicked Top Pit: " + pit.getIndex());
-									if(mancalaModel.checkTopsTurn() == true) {
+									if(!pit.getEnded()  && mancalaModel.checkTopsTurn() == true
+											)  {
 										mancalaModel.turn(pit.getIndex(), 1);
+									}
+									else
+									{
+										System.out.println("hahahahaended");
 									}
 								}
 							});
@@ -151,9 +177,14 @@ public class MancalaFrame {
 							pit.addMouseListener(new MouseAdapter() {
 								public void mousePressed(MouseEvent arg0) {
 									System.out.println("Clicked Top Pit: " + pit.getIndex());
-									if(mancalaModel.checkTopsTurn() == false) {
+									if(!pit.getEnded() && mancalaModel.checkTopsTurn() == false
+											 ) {
 										mancalaModel.turn(pit.getIndex(), 2);
 									}			
+									else
+									{
+										System.out.println("hahahahaended");
+									}
 								}
 							});
 							bottomPits.add(pit);
@@ -173,8 +204,9 @@ public class MancalaFrame {
 		});
 		north.add(rectangleButton);
 		north.add(circularButton);
-	    boardFrame.add(north, BorderLayout.NORTH);
+		boardFrame.add(north, BorderLayout.NORTH);
 	    boardFrame.repaint();
+
 	}
 
 	
@@ -203,7 +235,11 @@ public class MancalaFrame {
 		              mancalaModel.setStones(4);
 	               }
 	               board.createBoard();
-	               addStatusFeild();
+
+	 
+            	   			addStatusFeild();
+            		 
+	      
 	       		
 	            } else {
 	               label.setText("Invalid stone count, try again.");
@@ -242,7 +278,10 @@ public class MancalaFrame {
 		JButton undoButton = new JButton("Undo last move");
 		undoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mancalaModel.undo();
+
+					mancalaModel.undo();
+				
+		
 			}
 		});
 

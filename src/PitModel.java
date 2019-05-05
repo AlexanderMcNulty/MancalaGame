@@ -38,6 +38,8 @@ public class PitModel {
 		return opposite;
 	}
 	
+	
+	
 	public PitModel clone() {
 		return new PitModel(stones, isMancala, opposite);
 	}

@@ -9,6 +9,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -18,6 +19,10 @@ public class Pit extends JPanel implements Observer{
 	private int stoneCount;
 	private MancalaModel model;
 	private RectangularShape rShape;
+	private JLabel pitLabel;
+	private int count1;
+	private int count2;
+	private boolean ended;
 	
 
 	public Pit(int pitIndex, MancalaModel model, RectangularShape rShape) {
@@ -27,16 +32,39 @@ public class Pit extends JPanel implements Observer{
 		model.attach(this);
 		this.setPreferredSize(new Dimension(100, 125));
 		this.setBorder(new LineBorder(Color.BLACK, 10, true));
+		pitLabel = new JLabel();
+		ended = false;
+		
 	}
-	
+	public void setLabel(String labelString)
+	{
+		pitLabel.setText(labelString);
+		add(pitLabel);
+	}
 	@Override
 	public void viewNotify() {
 		//draw stones
 		stoneCount =  model.getPitScores()[pitIndex];
+//		for(int i = 0; i < 6; i ++)
+//		{
+//			count1 = count1 +this.
+//		}
+//		for(int i = 7; i < 13; i ++)
+//		{
+//			count2= count2 + model.getPitScores()[i];
+//		}
+//		System.out.println("count2: " + count2);
+//		if(count1 == 0 || count2 == 0)
+//		{
+//			ended = true;
+//		}
 		this.repaint();
 		//System.out.println(pitIndex + ": " + stoneCount);
 	}
-	
+	public boolean getEnded()
+	{
+		return ended;
+	}
     public void paintComponent( Graphics g )
     {
         super.paintComponent( g );

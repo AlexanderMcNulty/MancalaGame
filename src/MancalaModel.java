@@ -3,17 +3,18 @@
 import java.util.ArrayList;
 
 public class MancalaModel {
-	PitModel[] pits;
-	PitModel[] undoPits;
-	ArrayList<Observer> observers;
+	private PitModel[] pits;
+	private PitModel[] undoPits;
+	private ArrayList<Observer> observers;
 	
-	boolean isTopPlayersTurn;
-	boolean cannotUndo;
-	int player1Moves;
-	int player2Moves;
+	private boolean isTopPlayersTurn;
+	private boolean cannotUndo;
+	private int player1Moves;
+	private int player2Moves;
 
 	private int lastP1Status;
 	private int lastP2Status;
+//	private boolean ended;
 	
 	public MancalaModel(int stones) {
 		isTopPlayersTurn = false;
@@ -22,6 +23,7 @@ public class MancalaModel {
 		player2Moves = 0;
 		lastP1Status = 0;
 		lastP2Status = 0;
+//		ended = false;
 		
 		observers = new ArrayList<>();
 		pits = new PitModel[14];
@@ -72,6 +74,7 @@ public class MancalaModel {
 		}
 		stateChanged();
 	}
+
 	
 	public int[] getPitScores() {
 		int[] toReturn = new int[14];
@@ -86,6 +89,28 @@ public class MancalaModel {
 		System.out.println(pits[13]+"               "+pits[6]);
 		System.out.println("   "+pits[0]+" "+pits[1]+" "+pits[2]+" "+pits[3]+" "+pits[4]+" "+pits[5]+"  \n\n");
 	}
+	/**
+	 * Check if games ends
+	 * @return
+	 */
+//	public boolean endGame()
+//	{
+//		int count1 = 0;
+//		int count2 = 0;
+//		for(int i = 0; i < 6; i ++)
+//		{
+//			count1 = count1 + pits[i].getCount() ;
+//		}
+//		for(int i = 7; i < 13; i ++)
+//		{
+//			count2= count2 + pits[i].getCount() ;
+//		}
+//		if(count1 == 0 || count2 == 0)
+//		{
+//			return true;
+//		}
+//		return false;
+//	}
 	
 	public void turn(int pit, int player) {
 		if(pits[pit].getCount() != 0) {
@@ -117,15 +142,20 @@ public class MancalaModel {
 			if(currentPit > 13) {
 				currentPit = 0;
 			}
-			if(pits[currentPit].getCount() == 1 && pits[currentPit].isMancala() == false) {
-				int steal = pits[pits[currentPit].getOpposite()].getStones();
+			if(pits[currentPit].getCount() == 1 && pits[currentPit].isMancala() == false
+					&& pits[pits[currentPit].getOpposite()].getStones() >0) {
+				int steal = pits[pits[currentPit].getOpposite()].getStones() + pits[currentPit].getStones();
 				if(currentPit < 7) {
-					pits[6].addStone(steal);
+					pits[6].addStone(steal); // A's mancala
 				} else {
-					pits[13].addStone(steal);
+					pits[13].addStone(steal); // B's mancala
 				}
 			}
-			this.isTopPlayersTurn = !this.isTopPlayersTurn;
+			if (!pits[currentPit].isMancala())
+			{
+				this.isTopPlayersTurn = !this.isTopPlayersTurn;
+			}
+			
 			stateChanged();
 		}
 	}
@@ -140,6 +170,7 @@ public class MancalaModel {
 			o.viewNotify();
 		}
 	}
+
 	
 	public boolean checkTopsTurn() {
 		return isTopPlayersTurn;
