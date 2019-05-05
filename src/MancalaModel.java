@@ -173,7 +173,7 @@ public class MancalaModel {
 					currentPit = 0;
 				}
 				if(pits[currentPit].getCount() == 1 && pits[currentPit].isMancala() == false
-						&& pits[pits[currentPit].getOpposite()].getStones() >0) {
+						&& pits[pits[currentPit].getOpposite()].getCount() >0) {
 					int steal = pits[pits[currentPit].getOpposite()].getStones() + pits[currentPit].getStones();
 					if(currentPit < 7) {
 						pits[6].addStone(steal); // A's mancala
